@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="check=!check">Hit me !</button>
+    <h1>{{print}}</h1>
+    <template v-if="check">
+        <h1>@#!#!#</h1>
+        <h2>fsfdsfskfjfs</h2>
+        <h3>small paragraph</h3>
+        <hr>
+    </template>
+
+</div>
+
+<div id="test"></div>
+</body>
+<script>
+    vm1=new Vue({
+        el : '#app',
+        data : {
+            print : 'eiei',
+            check : true
+        }
+
+    })
+
+    vm2=new Vue({
+        el : '#test',
+        data : {
+
+        }
+    })
+
+    vm1.fuq='3232432'
+    console.log(vm1.fuq)
+    console.log(vm2.$data)
+
+</script>
+
+</html>

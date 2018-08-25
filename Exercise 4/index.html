@@ -1,0 +1,47 @@
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+<link rel="stylesheet" href="styles.css" type="text/css">
+<div id="exercise">
+    <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink"
+     class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
+    <div>
+        <button @click="startEffect">Start Effect</button>
+        <div id="effect" v-bind:class="[{highlight : hlTrigger},{shrink : hlTrigger==false}]"
+             @click="hlTrigger=!hlTrigger"></div>
+    </div>
+    <hr>
+    <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
+    <!--ถ้าเป็น [] array syntax เพียวๆแสดงว่าค่าที่ดึงมาต้อง set ตั้งแต่ใน data property แล้วนั่นเอง-->
+    <div v-bind:class="[size,color]">I got no class :(</div>
+    <!-- 3) Let the user enter a class (create some example classes) and attach it -->
+    <hr>
+    <div>
+        <input type="text" v-model="classDetail" placeholder="please input data">
+        <div :class="classDetail"></div>
+    </div>
+    <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
+    <hr>
+    <div>
+        <input type="text" v-model="clTr">
+        <input type="text" v-model="sTr">
+        <!--จะเห็นว่าตรงรูปแบบ array syntax แบบ css ฝังเช็ค จะใส่แบบนี้ได้-->
+        <div :class="[{color:(clTr=='true')},{size:sTr=='true'}]"></div>
+    </div>
+    <br>
+    <hr>
+    <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
+    <div>
+        <input type="text" v-model="divDetail.background">
+        <div :style="divDetail"></div>
+    </div>
+    <hr>
+    <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
+    <div>
+        <button v-on:click="startProgress">Start Progress</button>
+        <div v-bind:style="bar"></div>
+        <div v-bind:class="{'progress-bar':ckPro}"></div>
+    </div>
+</div>
+<hr>
+
+
+<script src="app.js"></script>

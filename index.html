@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="vue.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <h1>VueJS For Starter</h1>
+    <!--ตรงส่วนี้คือส่วนของโค้ดที่บอกไอดีให้กับ Vue จาก property el : '#app' -->
+    <div id="app">
+        <!--v-on:domevent เป็นการ listen ดู dom element ว่า บริเวณ element นี่จะมีการส่ง event มาเพื่อไปให้อีก function หนึ่ง
+            ซึ่ง function ที่ส่งไปถ้าเกิดไม่มี parameter มีแต่ชื่อเช่น getCoordinate จะทำการ inject listener event ของ dom ประเภทนั้นเข้าไปให้เลยทันที
+            แต่ถ้าเกิดมี parameter ก็จะทำงานตามที่ parameter เขียนไว้เช่น getCoordinate($event) แต่ $event คือ default event ของ dom นั้นๆ
+            ทำให้เราสามารถ overload argument เข้าไปเพิ่มได้อย่างส่ง getCooordiate('hello',$event) เข้าไปต่อได้นั่นเอง
+            นี่จึงเป็นข้อดีของการมี default event ซึ่ง vuejs เป็นคนทำให้เอง แต่ถ้า function เราเที่เขียนเอวเป็น zero argument จริงๆ แบบ
+            getCoordinate : function(){
+                // code
+            }
+            ก็ยังจะทำงานได้อยู่ดีในกรณีที่เรียกใช้แบบ ไม่ระบุ parameter getCoordinate เฉยๆ หรือใส่เป็น zero argument เช่น getCoordinate() นั้นมีค่าเหมือนกัน
+            ซึ่งก็แค่ไม่มี default $event ส่งเข้ามาเฉยๆนั้นเองไม่ได้พังอะไร
+         -->
+        <div v-on:mousemove="getCoordinate($event)">
+            <!--การดึงค่า expression ของ VueJS นั้นจะดึงผ่าน  double curly braclet {{data}} ซึ่งก็คือปีกกาซ้อนสองครั้งนั่นเอง
+                ซึ่งภายใน ปีกกานั้นสามารถทำการคำนวนค่าที่เป็นตัวเลขได้ด้วยแต่ต้องเรียกทีล่ะตัวเท่านั้นไม่สามารถเรียกจากหลายๆตัวมาคำนวนต่อได้
+                ตัวอย่างเช่นต้องการให้ตัวแปร x ไปคุณเพิ่มสามเท่า {{x*3}} เป็นต้น หรือจะ {{x*y}} ก็ได้เช่นกัน
+            -->
+            <h2>{{message}}</h2>
+            <!--v-once คือการ ล็อค dom value ของ HTML TAG นั่นเอาไว้ไม่ให้เปลี่ยน เพราะว่าเมื่อ data propery ของ Vue instance
+                ตัวนั้นเปลี่ยนไปทุกๆบริเวณทุกจุดที่ใช้ data property นั้นก็จะเปลี่ยนตามด้วย แต่การใช้ v-once จะเป้นการล็อคเอาไว้ไม่ให้เปลี่ยนแปลงเลย
+                เพื่อบางครั้งต้องการล็อคการแสดงผลในบางจุดนั่นเอง
+            -->
+            <h2 v-once>{{message}}</h2>
+            <hr>
+            <input type="text" value="100" v-on:input="changeText">
+            <h2>{{message}}</h2>
+
+            <button v-on:click="helloWorld">click Me</button>
+            <!--v-bind คือการ inject ค่าเข้าไป HTML Attribute เช่น name=" " value=" " placeholder=" " หรือใดๆก็ตาม
+                ซึ่งจะเห็นว่า href นั้นอยากจะนำ data property ของ Vue มาใช้ แต่ว่า เราไม่สามารถนำมาใช้ตรงๆได้
+                เราจึงมีวิธีการแก้โดยบอกว่าให้ทำการ v-bind เพื่อล็อค property ของ HTML TAG เอาไว้นั่นเองแล้ว inject ด้วยชื่อของ data property
+                ได้เลยโดยไม่ต้องทำการ ใส่ดับเบิ้ลปีกกา ด้วยนะเพราะมันจะมองเป็นตัวหนึงสือเพียวๆแล้วพร้อม inject แต่ถ้าไม่มี vbind มันจะนำปีกกา
+                ไป encoding แทนอีกถ้าเรานำ {{link}} ไปใส่ตรงๆ
+            -->
+            <a v-bind:href="link">Facebook</a>
+            <hr>
+            <h1>Calculator WTF</h1>
+            <!--v-model ถือเป็นเทพเจ้าสุดเจ๋งคือถ้าเราต้องการจะดึงค่าจาก html tag นี้อย่างช่อง input ปกติถือต้องไปดึงอะไรยุ่งยาก getElementById
+                แต่ปัญหานี้จะหมดไปเลยเพราะว่าเราทำให้ช่องนี้เป็น v-model แล้วตั้งชื่อเอาไว้แล้วคือ answerValue ซึ่งเสมือนเราไปสร้าง
+                data property ใน Vue instance ด้วยนะ ทั้งๆที่ยังไมไ่ด้เขียนแล้ว ไปเรียกใช้ผ่าน function ใดๆได้เลยด้วยการใช้คำสั่ง this.answerValue
+                เสมือนเวลาทำปกติเลย ที่จะอ้างหาข้อมูลจาก data property ใน Vue Instance ทำให้สะดวกมากๆ เวลาจะดึงค่าจากช่องไปคำนวนอะไรสักอย่าง
+            -->
+            <p>Random number {{leftValue}}+{{rightValue}} :
+                <input v-model="answerValue" placeholder="answer..."> </p>
+            <button v-on:click="computeValue">Answer!</button>
+            <p>{{result}}</p>
+            <hr>
+            <!--สังเกตดูตรงนี้จะเห็นเลยว่า-->
+            <input v-model="message1" placeholder="edit me">
+            <p>Message is: {{ message1 }}</p>
+            <div v-html="finishLink"></div>
+            <hr>
+            <h1 v-on:mousemove="deadSpot">Mouse Coordinatiom X : {{x}} Y : {{y}}</h1>
+            <!--สามารถใช้ .stop เพื่อหยุดการทำงานของ function ที่ส่งสืบต่อเนื่องมาได้อย่างในกรณีคือตัวเช็ค
+                ถูกวัดด้วย function getCoordinate แล้วส่งมาที่ตัวข้างในต่อนั่นเองพอใช้ .stop ทำให้บริเว็ณนี้
+                ไม่ได้รับผลเรื่องการหาตำแหน่งของเม้าไป
+            -->
+            <h1 v-on:mousemove.stop="">Mouse Coordinatiom X : {{x}} Y : {{y}}</h1>
+            <input v-model="alertInput" v-on:keyup.enter="alertMe" type="text" placeholder="try press up key.">
+        </div>
+    </div>
+
+    <script>
+        /*Vue( Object ) ต้องการรับ parameter เป็น Object ซึ่งในที่นี้สามารถเขียนเป้น { } แทน Object ได้นั่นเอง
+        ซึ่งเป็นลักษณะของ ES6 นั่นสามารถเข้าไปเขียนเพิ่ม property ได้ตามดังนี้ก็คือต้องมี
+        el : '#id' คือ element ที่จะเลือกมานั่นเองซึ่งจะครอบคลุมเป็นบล็อคๆไป บล็อคใครบล็อคมันถ้าออกขอบเขตแล้ว
+        Vue instance ก็จะไม่ทำงานนั่นเอง ซึ่ง ก็สามารถไปสร้าง Vue instance ได้หลายที่โดยไม่ต้องมีตัวแปรอะไรมารับด้วย
+        เพราะด้านหลังจะจัดการให้เองหมดเลยไม่ต้องกัวลใดๆทั้งสิ้น ชื่อตัวแปรก็ซ้ำกันได้ดว้ยถ้าอยู่คนล่ะ scope
+        */
+        new Vue({
+            //el คือ element ครอบบริเวณ block ของ html ที่ Vue instance นี้มีขอบเขตอยู่
+            el: '#app',
+            //data คือใช้ในการเรียก property ออกไปแสดงที่ html
+            data: {
+                x: 0,
+                y: 0,
+                message: 'My Name Is Son',
+                link: 'http://www.facebook.com',
+                finishLink: '<a href="http://www.google.com">Go to Google Site</a>',
+                leftValue: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+                rightValue: Math.floor(Math.random() * (10 - 1 + 1)) + 1,
+                result: 'Wait For Start...'
+            },
+            //methods ใช้ในการเก็บ function ย่อยๆที่จะเรียกใช้เอาไว้
+            methods: {
+                changeText: function (event) {
+                    //event นี้คือเกิดเมื่อมีการ input ตัวหนังสือเข้ามา 1 ตัวก็นับเป็นหนึ่งครั้ง โดยสามารถดึงค่ามาได้จาก
+                    //การใช้ event.target.value
+                    this.message = event.target.value;
+                },
+                helloWorld: function () {
+                    return 'eiei';
+                },
+                computeValue: function () {
+                    result = this.leftValue + this.rightValue;
+                    if (result == this.answerValue) {
+                        this.result = 'Your Win !'
+
+                    } else {
+                        this.result = 'Your lose!!! Real answer is ' + result + 'Your answer is ' + this.answerValue
+                    }
+                },
+                getCoordinate: function (event) {
+                    this.x = event.clientX;
+                    this.y = event.clientY;
+                    
+                },
+                deadSpot: function (event) {
+                    event.stopPropagation();
+                    
+                },
+                alertMe : function (event) {                   
+                    alert(this.alertInput);
+                }
+
+            }
+        });
+
+    </script>
+</body>
+
+</html>

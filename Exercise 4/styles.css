@@ -1,0 +1,38 @@
+#effect {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+}
+
+.highlight {
+    background-color: red;
+    width: 200px !important;
+}
+
+.shrink {
+    background-color: palegreen;
+    width: 50px !important;
+}
+
+.size {
+    width: 50;
+    height: 50;
+    background-color: black;
+}
+
+.color {
+    background-color: salmon;
+    border-style: dotted;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 10px;
+    background: purple;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    background: maroon;
+}

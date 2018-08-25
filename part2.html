@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="vue.js"></script>
+    <title>Title</title>
+    <style>
+        .default-render{
+            width: 100px;
+            height: 100px;
+            background-color: gainsboro;
+            margin-bottom: 5px;
+        }
+        .red{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>{{title}}</h1>
+        <h2>{{increaseMethod()}}</h2>
+        <h2>{{increaseComputed}}</h2>
+        <input type="text" disabled v-bind:value="x">
+        <button v-on:click="x++">Increase X++</button>
+        <button v-on:click="anotherD++">Another X</button>
+        <br>
+        <hr> <!--code นี้มีผลเหมือนกันเลย โดย class เราจะใช้  v-bind:class นั่นเอง { .class : booleanVariable  }-->
+        <div class="default-render" @click="classTrigger=!classTrigger" :class="{red : classTrigger}"></div>
+        <div class="default-render" @click="classTrigger=!classTrigger" :class="computeTrigger"></div>
+        <div class="default-render"></div>
+        <div class="default-render"></div>
+
+    </div>
+
+
+    <div id="example">
+        <input  type="text" @keyup.enter="updateX">
+        <p>Original message: "{{ message }}"</p>
+        <p>Computed reversed message: "{{ reversedMessageMethod() }}"</p>
+    </div>
+
+
+    <script>
+        var debug=0;
+        var dependency=0;
+        new Vue({
+            el : '#app',
+            data : {
+                x : 0,
+                title : 'Button Value',
+                anotherD : 0,
+                classTrigger : false
+            },
+            methods : {
+                increaseMethod : function () {
+                   // console.log('method')
+                    this.anotherD;
+                    return this.x;
+
+                },
+                increase : function () {
+
+                }
+            },
+            computed : {
+                increaseComputed : function () {
+                   // console.log('computed');
+                    this.anotherD;
+                    return this.x;
+                },
+                //จะเห็นว่าเราสามารถ return เป็น js propery แบบที่ v-bind:class=" js code  " ต้องการได้ด้วย
+                //ซึ่งหน้าตาก็จเหมือนการเข้าไปเขียนปกติเลยแต่ว่าจะต้องใช้ this เพราะมันอ้างถึง property นั่นเองแต่อยู่
+                //ตรงส่วนของ Vue Instance ไม่ได้อยู่ที่ html
+                computeTrigger : function () {
+                    return {
+                        red : this.classTrigger
+                    }
+                }
+            },
+            watch : {
+
+            }
+
+        });
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                message: 'Hello'
+            },
+            methods : {
+                updateX : function (event) {
+                    this.message=event.target.value;
+                },
+                reversedMessageMethod: function () {
+                    console.log('method reverse');
+                    // `this` points to the vm instance
+                    return this.message.split('').reverse().join('')
+                }
+
+            }
+            ,
+            computed: {
+                // a computed getter
+                reversedMessage: function () {
+                    console.log('computed message');
+                    // `this` points to the vm instance
+                    return this.message.split('').reverse().join('')
+                }
+            },
+            watch : {
+                message : function () {
+                    console.log('value change')
+                }
+            }
+        })
+
+
+    </script>
+</body>
+</html>

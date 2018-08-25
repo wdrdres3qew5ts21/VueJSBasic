@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="check=!check">Hit me !</button>
+        <h1>{{print}}</h1>
+        <template v-if="check">
+            <h1>@#!#!#</h1>
+            <h2>fsfdsfskfjfs</h2>
+            <h3>small paragraph</h3>
+            <hr>
+        </template>
+
+    </div>
+
+</body>
+<script>
+    new Vue({
+        el : '#app',
+        data : {
+            print : 'eiei',
+            check : true
+        }
+
+    })
+
+</script>
+
+</html>

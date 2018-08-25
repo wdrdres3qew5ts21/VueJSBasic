@@ -1,0 +1,35 @@
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+
+<div id="exercise">
+    <!-- 1) Hook up the button to toggle the display of the two paragraphs. Use both v-if and v-show and inspect the elements to see the difference -->
+    <div>
+        <!-- v-if นั้นจะเป็นการทำการถอด element นั้นทิ้งไปเลยซึ่งก็จะส่งผลต่อเรื่องความเร็วได้ถ้ามีการถอดเข้าถอดออกบ่อยๆ เสมือนถูก comment code wxg]p -->
+        <button @click="isDisplay=!isDisplay">Toggle</button>
+        <p v-if="isDisplay">You either see me ...</p>
+        <p v-else>...or me</p>
+        <!-- ไม่ได้เป้นการถอดออกไปทั้ง element แต่แค่ทำการซ่อนเอาไว้ด้วยการ display none นั่นเอง และก็ไม่สามารถใช้ v-else ได้ด้วย -->
+        <p v-show="isDisplay">You either see me ...</p>
+        <p v-show="isDisplay==false">...or me</p>
+    </div>
+    <!-- 2) Output an <ul> of array elements of your choice. Also print the index of each element. -->
+    <ul>
+        <!--ลำดับสำคัญมากคือ value,index ถ้าหากเป้นการ print array ปกติไมไ่ด้เป้น object array-->
+        <li v-for="(value,index) in array">{{index+1}} : {{value}}</li>
+    </ul>
+    <!-- 3) Print all key-value pairs of the following object: {title: 'Lord of the Rings', author: 'J.R.R. Tolkiens', books: '3'}. Also print the index of each item. -->
+    <ul>
+        <!--ลำดับสำคัญมากๆถ้าเป้น array object ก็คือ value key index นั้นเอง-->
+        <li v-for="(value,key,i) in myObject">{{i+1}} {{key}} : {{value}}</li>
+    </ul>
+    <!-- 4) Print the following object (only the values) and also create a nested loop for the array: {name: 'TESTOBJECT', data: [1.67, 1.33, 0.98, 2.21]} (hint: use v-for and v-if to achieve this) -->
+    <ul>
+        <li v-for="item in testData">
+            <template v-if="Array.isArray(item)==false">{{item}}</template>
+            <template v-else >
+                <li v-for="i in item">{{i}}</li>
+            </template>
+        </li>
+    </ul>
+</div>
+
+<script src="app.js"></script>
